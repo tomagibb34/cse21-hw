@@ -1,7 +1,7 @@
 // CSE 210 - Introduction to Programming
 // Exercise 3 - Magic Number guessing game
 // Author: Tom Gibb
-// Date: 03-05-2026
+// Date: 05-03-2026
 
 using System;
 
