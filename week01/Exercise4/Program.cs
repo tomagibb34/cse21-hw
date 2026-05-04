@@ -14,6 +14,7 @@
 // 10. Find the minimum, or smallest, number in the list and display it to the user.
 // 11. Output the numbers in the list in sorted order (from smallest to largest).
 // 12. Output the numbers in the list in reverse sorted order (from largest to smallest).
+// 13. Process the list and display the smallest positive number in the list. If there are no positive numbers, display a message indicating that.
 // Example Output:
 // Enter a number (or type 'done' to finish): 5
 // Enter a number (or type 'done' to finish): 10
@@ -195,6 +196,39 @@ class Program
         
         {
             Console.WriteLine("No numbers were entered to sort in reverse order.");
+        }
+
+        // Process the list and display the smallest positive number in the list. If there are no positive numbers, display a message indicating that.
+        
+        if (numbers.Count > 0)
+        
+        {
+            int smallestPositive = int.MaxValue;
+            bool foundPositive = false;
+
+            foreach (int num in numbers)
+            {
+                if (num > 0 && num < smallestPositive)
+                {
+                    smallestPositive = num;
+                    foundPositive = true;
+                }
+            }
+
+            if (foundPositive)
+            {
+                Console.WriteLine($"Smallest positive number: {smallestPositive}");
+            }
+            else
+            {
+                Console.WriteLine("No positive numbers were entered.");
+            }
+        }
+        
+        else
+        
+        {
+            Console.WriteLine("No numbers were entered to find the smallest positive number.");
         }
 
         // End of the program
