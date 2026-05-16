@@ -35,7 +35,9 @@ class Program
 {
      private static List<string> journalEntries;
 
-     static void Main(string[] args, string v)  // This is the main method of the program, which will be executed when the program is run.
+     // This is the main method of the program, which will be executed when the program is run.
+
+    static void Main(string[] args)
     {
         Console.WriteLine("Hello World! This is the Journal Project.");  // This will display a welcome message to the user when the program is run.
         Console.WriteLine("");  // This will add a blank line to the console for better readability.
@@ -79,7 +81,7 @@ class Program
                     continue;  // This will return to the main menu if no prompts are found.
                 }
 
-                journalEntries = new List<string>();  //
+                // journalEntries = new List<string>();  //
                 
                  // This will initialize the _journalEntry variable with the current date and time, followed by a space for the user to start typing their entry.
                  // This will be the first journal entry that is added to the list of journal entries in memory, which can then be displayed to the user or saved to a file when the user selects the corresponding options.
@@ -170,7 +172,7 @@ class Program
                 // them in a list in memory. The list of journal entries will then be stored in the journalEntries variable,
                 // which can be used for other operations such as displaying the entries to the user or saving them to a file.
 
-                List<string> journalEntries = readJournalFile.ReadFromFile(readJournalFile._fileName);
+                journalEntries = readJournalFile.ReadFromFile(readJournalFile._fileName);
             }
             else if (choice == "4")  // This will allow the user to save their journal to a file.
             {
