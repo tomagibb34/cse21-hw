@@ -5,7 +5,8 @@ using System.Collections.Generic;  // This library is used for collections, such
 
 public class ReadPromptFile
 {
-    public string _fileName = "prompt.txt";
+    public string _fileName;  // This variable will be used to store the name of the file that contains the prompts.
+    // It is declared as a public variable, which means that it can be accessed from outside the class.
 
     // This method will be used to read prompts from a file. It will take the name of the file as a parameter, and it will return a list of prompts that were read from the file.
     public List<string> ReadPromptsFromFile(string _fileName)

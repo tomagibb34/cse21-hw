@@ -91,8 +91,10 @@ class Program
                     }
                     // This will randomly select a prompt from the list of prompts that were read from the file, and it will display the selected prompt to the user for them to write about in their journal entry.
                     Random random = new Random();
+
                     int _promptIndex = random.Next(_prompts.Count);
                     string _selectedPrompt = _prompts[_promptIndex];
+
                     Console.WriteLine($"Your prompt is: {_selectedPrompt}");
 
                     // This will prompt the user to enter their journal entry, and it will read the user's input for the journal entry.
