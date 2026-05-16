@@ -35,7 +35,7 @@ class Program
 {
      private static List<string> journalEntries;
 
-     static void Main(string[] args)  // This is the main method of the program, which will be executed when the program is run.
+     static void Main(string[] args, string v)  // This is the main method of the program, which will be executed when the program is run.
     {
         Console.WriteLine("Hello World! This is the Journal Project.");  // This will display a welcome message to the user when the program is run.
         Console.WriteLine("");  // This will add a blank line to the console for better readability.
@@ -79,23 +79,27 @@ class Program
                     continue;  // This will return to the main menu if no prompts are found.
                 }
 
-                // Allow the user to write as many journal entries as they want based on the selected prompt.
-                string _journalEntry = "test";  // This will be used to store the user's journal entry input.
+                journalEntries = new List<string>();  //
+                
+                 // This will initialize the _journalEntry variable with the current date and time, followed by a space for the user to start typing their entry.
+                 // This will be the first journal entry that is added to the list of journal entries in memory, which can then be displayed to the user or saved to a file when the user selects the corresponding options.
+
+                string _journalEntry = $"{DateTime.Now}: ";
+
+                journalEntries.Add(_journalEntry);  // This will add the first journal entry to the list of journal entries in memory, which can then be displayed to the user or saved to a file when the user selects the corresponding options.
+
+                // This will randomly select a prompt from the list of prompts that were read from the file, and it will display the selected prompt to the user for them to write about in their journal entry.
+                Random random = new Random();
+                int _promptIndex = 0;
+                string _selectedPrompt = "";
 
                 while (_journalEntry != "")  // This will allow the user to write as many journal entries as they want based on the selected prompt. The user can exit this loop by entering an empty string (pressing Enter without typing anything).
                 {
-                    // Add the date and time to the first journal entry by testing for the value of the _journalEntry variable. If the value is "test", then this will be the first journal entry, and the program will add the date and time to the entry before it is added to the list of journal entries in memory.
-                    if (_journalEntry == "test")
-                    {
-                        _journalEntry = $"{DateTime.Now}: ";  // This will add the current date and time to the journal entry, followed by a space for the user to start typing their entry.
-                    }
-                    // This will randomly select a prompt from the list of prompts that were read from the file, and it will display the selected prompt to the user for them to write about in their journal entry.
-                    Random random = new Random();
-
-                    int _promptIndex = random.Next(_prompts.Count);
-                    string _selectedPrompt = _prompts[_promptIndex];
+                    _promptIndex = random.Next(_prompts.Count);
+                    _selectedPrompt = _prompts[_promptIndex];
 
                     Console.WriteLine($"Your prompt is: {_selectedPrompt}");
+                    journalEntries.Add($"Prompt: {_selectedPrompt}");  // This will add the selected prompt to the list of journal entries in memory, which can then be displayed to the user or saved to a file when the user selects the corresponding options.
 
                     // This will prompt the user to enter their journal entry, and it will read the user's input for the journal entry.
                     Console.WriteLine("Please enter your journal entry: To finish writing, press Enter on an empty line.");
@@ -106,7 +110,6 @@ class Program
                     
                     if (journalEntries == null)
                     {
-                        journalEntries = new List<string>();
                     }
                     journalEntries.Add(_journalEntry);
 
