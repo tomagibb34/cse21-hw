@@ -23,6 +23,7 @@ using System;  // This library is used for basic input and output operations, su
 using System.IO;  // This library is used for file handling operations, such as reading from and writing to files.
 using System.Collections.Generic;  // This library is used for collections, such as lists and dictionaries, which will be used to store the journal entries in memory.
 
+
 // The following classes will be used to handle the different operations of the program, such as reading from a file, writing to a file, displaying the journal entries, and reading prompts from a file.
 
 using static WriteJournalFile;  // This class will be used to handle the writing of journal entries to a file.
@@ -33,7 +34,7 @@ using static ReadPromptFile;  // This class will be used to handle the reading o
  // This is the main class of the program, which will contain the main method and any other methods that are needed for the program to function.
 class Program
 {
-     private static List<string> journalEntries;
+    static List<string> journalEntries;
 
      // This is the main method of the program, which will be executed when the program is run.
 
@@ -81,10 +82,25 @@ class Program
                     continue;  // This will return to the main menu if no prompts are found.
                 }
 
-                // journalEntries = new List<string>();  //
+                List<string> journalEntries = new List<string>();  //
+
+                // Load the journal file into memory using the ReadJournalFile class, which will read the journal entries from the specified file and store them in a list in memory, which can then be displayed to the user or used for other operations.
+                ReadJournalFile readJournalFile = new();
+
+                // Test to see if 'journal.txt' exists before trying to ready from the file. If the file does not exist, it will create an empty file to avoid errors when trying to read from a non-existent file.
                 
-                 // This will initialize the _journalEntry variable with the current date and time, followed by a space for the user to start typing their entry.
-                 // This will be the first journal entry that is added to the list of journal entries in memory, which can then be displayed to the user or saved to a file when the user selects the corresponding options.
+                if (!File.Exists("journal.txt"))
+                {
+                    File.Create("journal.txt").Close();  // This will create an empty file called "journal.txt" if it does not already exist, and then close the file to release the file handle.
+                }
+                
+                readJournalFile._fileName = "journal.txt";  // This will set the file name for the ReadJournalFile class to "journal.txt".
+
+                // This will call the ReadFromFile method of the ReadJournalFile class, which will read the journal entries from the specified file and store them in a list in memory, which can then be displayed to the user or used for other operations.
+                journalEntries = readJournalFile.ReadFromFile(readJournalFile._fileName);
+
+                // This will initialize the _journalEntry variable with the current date and time, followed by a space for the user to start typing their entry.
+                // This will be the first journal entry that is added to the list of journal entries in memory, which can then be displayed to the user or saved to a file when the user selects the corresponding options.
 
                 string _journalEntry = $"{DateTime.Now}: ";
 
@@ -110,10 +126,11 @@ class Program
                     
                     // This will add the user's journal entry to the list of journal entries in memory, which can then be displayed to the user or saved to a file when the user selects the corresponding options.
                     
-                    if (journalEntries == null)
+                    if (_journalEntry != "")
                     {
+                        journalEntries.Add(_journalEntry); 
                     }
-                    journalEntries.Add(_journalEntry);
+
 
                 }
 
@@ -122,6 +139,7 @@ class Program
                 // The WriteEntry method will prompt the user for the journal entry, and then write it to a file using file handling operations.
                 // This will create a new instance of the WriteJournalFile class, which will be used
                 // to handle the writing of journal entries to a file. The WriteJournalFile class will have a method called WriteEntry, which will handle the writing of a new journal entry to a file. This method will prompt the user for the journal entry, and then write it to a file using file handling operations.
+                
                 WriteJournalFile writeJournalFile = new();
                 writeJournalFile._fileName = "journal.txt";  // This will set the file name for the WriteJournalFile class to "journal.txt".
                 writeJournalFile.WriteToFile(journalEntries);  // This will call the WriteEntry method of the WriteJournalFile class, which will handle the writing of a new journal entry to a file. The WriteEntry method will prompt the user for the journal entry, and then write it to a file using file handling operations.
@@ -133,6 +151,13 @@ class Program
                 // This will create a new instance of the DisplayJournal class, which will be used to handle the displaying of journal entries to the console.
                 
                 DisplayJournal displayJournal = new();
+
+                // Load the journal file into memory using the ReadJournalFile class, which will read the journal entries from the specified file and store them in a list in memory, which can then be displayed to the user or used for other operations.
+                ReadJournalFile readJournalFile = new();
+                readJournalFile._fileName = "journal.txt";  // This will set the file name for the ReadJournalFile class to "journal.txt".
+
+                journalEntries = readJournalFile.ReadFromFile(readJournalFile._fileName);  // This will call the ReadFromFile method of the ReadJournalFile class, which will read the journal entries from the specified file and store them in a list in memory, which can then be displayed to the user or used for other operations.
+
 
                 // This will call the DisplayEntries method of the DisplayJournal class, which will handle the displaying of journal entries to the console. The DisplayEntries method will take a list of journal entries as a parameter, and it will display each entry to the console in a readable format.
                 
