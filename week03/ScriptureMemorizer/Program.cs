@@ -3,10 +3,10 @@
 // Author: Tom Gibb
 // Date: 05-19-2026
 
-// This is a simple program that will be used to test the functionality of the ScriptureMemorizer class.
-// The program will create a new instance of the ScriptureMemorizer class and call the DisplayScripture method to display the scripture to the user.
+// This is a complex program that will be used to test the functionality of the Scripture class.
+// The program will create a new instance of the Scripture class and call the DisplayScripture method to display the scripture to the user.
 // The program will obtain the scripture reference from the user and then find that scripture reference in the scriptures.txt file.
-// It will then store the scripture reference and text in separate strings within the ScriptureMemorizer class.
+// It will then store the scripture reference and text in separate strings within the Scripture class.
 // This will allow the user to hide a random word in the scripture each time they type "hide" when prompted to hide a word.
 
 // The program will then prompt the user to hide a word in the scripture by typing "hide" when prompted to hide a word.
@@ -30,11 +30,8 @@
 // The program will allow the user to input a new scripture by typing "new" when prompted to hide a word.
 // The program will also allow the user to input a new scripture by typing "new" when prompted to hide a word.
 // The program will then prompt the user to enter the reference and the text of the scripture.
-// The program will then create a new instance of the ScriptureMemorizer class with the new scripture and call the DisplayScripture method to display the new scripture to the user.
+// The program will then create a new instance of the Scripture class with the new scripture and call the DisplayScripture method to display the new scripture to the user.
 // The program will also allow the user to input a new scripture by typing "new" when prompted to hide a word. The program will then prompt the user to enter the reference and the text of the scripture. The program will then create a new instance of the ScriptureMemorizer class with the new scripture and call the DisplayScripture method to display the new scripture to the user.
-
-
-
 
 using System;
 using System.Collections.Generic;
@@ -42,11 +39,67 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// The Program class contains the Main method, which is the entry point of the application.
+// It is responsible for creating an instance of the Scripture class and calling the DisplayScripture method to display the scripture to the user.
+// The Program class also handles user input and calls the appropriate methods in the Scripture class based on the user's commands.
+// The Program class does not include items or behaviors that do not pertain to it. It is focused on managing the flow of the application and interacting with the user.
+
+
+using static Reference;
+using static Word;
+using static Scripture;
 
 class Program
 {
-    static void Main(string[] args)
-    {
-        Console.WriteLine("Hello World! This is the ScriptureMemorizer Project.");
-    }
+     static void Main(string[] args)
+     {
+        Console.WriteLine("Hello World! This is the Scripture Project.");
+
+        // Initialize the Reference class with the user's input for the book, chapter, and verse(s) of the scripture reference. This will allow the program to store the scripture reference and text in separate strings within the Scripture class.            // Initialize the Reference class with the user's input for the book, chapter, and verse(s) of the scripture reference. This will allow the program to store the scripture reference and text in separate strings within the ScriptureMemorizer class.
+        // This will allow the user to hide a random word in the scripture each time they type "hide" when prompted to hide a word, regardless of how many verses are in the scripture.
+
+        Reference myReference = new Reference(Console.ReadLine(), 0, 0);
+
+        string _myBook = myReference.GetBook();
+
+        int _myChapter = myReference.GetChapter();
+
+        (int _1stVerse, int _lastVerse) = myReference.GetVerse();
+
+        // Initialize the Scripture class with the scripture reference and text obtained from the scriptures.txt file. This will allow the program to store the scripture reference and text in separate strings within the Scripture class.            // Initialize the Scripture class with the scripture reference and text obtained from the scriptures.txt file. This will allow the program to store the scripture reference and text in separate strings within the ScriptureMemorizer class.
+        // This will allow the user to hide a random word in the scripture each time they type "hide" when prompted to hide a word, regardless of how many verses are in the scripture.
+        
+        Scripture myScripture;
+
+        if (_lastVerse == 0)
+        {
+            myScripture = new Scripture(myReference.GetReference(), "This is the scripture text.");
+        }
+        else
+        {
+            myScripture = new Scripture(myReference.GetReference(), "This is the scripture text for multiple verses.");
+        }
+
+        // Call the DisplayScripture method to display the scripture to the user. This will allow the user to see the scripture reference and text before they start hiding words.
+        // Call the DisplayScripture method to display the scripture to the user.
+        // This will allow the user to see the scripture reference and text before they start hiding words, regardless of how many verses are in the scripture.
+        
+        myScripture.DisplayScripture();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     }
 }
