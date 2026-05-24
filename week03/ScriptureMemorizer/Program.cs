@@ -51,6 +51,8 @@ using static Scripture;
 
 class Program
 {
+     // Field to store an array of Scripture objects, which will be used to manage multiple scriptures in the program.
+     // This will allow the user to input a new scripture and have it stored in the array of Scripture objects, and to call the DisplayScripture method for each scripture in the array when prompted to display the scriptures.
      static void Main(string[] args)
      {
         Console.WriteLine("Hello World! This is the Scripture Project.");
@@ -68,6 +70,9 @@ class Program
 
         // Initialize the Scripture class with the scripture reference and text obtained from the scriptures.txt file. This will allow the program to store the scripture reference and text in separate strings within the Scripture class.            // Initialize the Scripture class with the scripture reference and text obtained from the scriptures.txt file. This will allow the program to store the scripture reference and text in separate strings within the ScriptureMemorizer class.
         // This will allow the user to hide a random word in the scripture each time they type "hide" when prompted to hide a word, regardless of how many verses are in the scripture.
+        // Initialize the GetScripture method to obtain the scripture text from the lds-scriptures.txt file based on the user's input for the scripture reference.
+        // This will allow the program to store the scripture reference and text in separate strings within the Scripture class.
+
         
         Scripture myScripture;
 

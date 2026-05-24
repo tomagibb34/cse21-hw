@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,8 +20,19 @@ class Reference
     private int _chapter; // Field to store the chapter number of the scripture reference
     private int _verse; // Field to store the starting verse number.
     private int _verseEnd; // Field to store the ending verse number for a scripture reference with multiple verses
-    private string[] _locVerse; // Field to store the verse number(s) as a string for display purposes
     private string _verseInput; // Field to store the user input for the verse number(s)
+    private string[] _locVerse; // Field to store the verse number(s) as a string for display purposes
+
+    private string[] _lines; // Field to store the lines of the scriptures.txt file, which will be used to find the scripture reference and text based on the user's input. This will allow the program to store the scripture reference and text in separate strings within the Scripture class and the ScriptureMemorizer class, and to handle a scripture with multiple verses by storing the scripture reference and text in separate strings within the ScriptureMemorizer class. This will allow the user to hide a random word in the scripture each time they type "hide" when prompted to hide a word, regardless of how many verses are in the scripture.
+    private static string[] _loadedScriptures;
+
+    private string[] _matchingScriptures; // Field to store the scripture references in the _loadedScriptures array that match the user's input for the book, chapter, and verse(s), which will be used to return the scripture reference in the format "Book Chapter:Verse" or "Book Chapter:Verse-EndingVerse" if there are multiple verses. This will allow the program to store the scripture reference and text in separate strings within the Scripture class and the ScriptureMemorizer class, and to handle a scripture with multiple verses by storing the scripture reference and text in separate strings within the ScriptureMemorizer class. This will allow the user to hide a random word in the scripture each time they type "hide" when prompted to hide a word, regardless of how many verses are in the scripture.
+
+    public string[] LoadScriptures()
+    {
+        _lines = File.ReadAllLines("lds-scriptures.txt");
+        return _lines;
+    }
 
 
     public Reference(string book, int chapter, int verse)
@@ -56,6 +68,7 @@ class Reference
         // Return the chapter number
         // Query the chapter number from the user input and return it
         Console.WriteLine("Please enter the chapter number:");
+        _chapter = int.Parse(Console.ReadLine());
         return _chapter;
     }
 
@@ -86,13 +99,27 @@ class Reference
 
     public string GetReference()
     {
+        _loadedScriptures = LoadScriptures();
+
+        // Return the scripture reference in the format "Book Chapter:Verse" or "Book Chapter:Verse-EndingVerse" if there are multiple verses
+        // Find the scripture references in the _loadedScriptures array that match the user's input for the book, chapter, and verse(s), 
+        // and return the scripture reference in the format "Book Chapter:Verse" or "Book Chapter:Verse-EndingVerse" if there are multiple verses
+
         if (_verseEnd > 0)
         {
-            return $"{_book} {_chapter}:{_verse}-{_verseEnd}";
+            _matchingScriptures = _loadedScriptures
+                .Where(line => line.Contains($"{_book} {_chapter}:{_verse}") || line.Contains($"{_book} {_chapter}:{_verseEnd}"))
+                .ToArray();
+
+            return $"{_book} {_chapter}:{_verse}-{_verseEnd} {_matchingScriptures.Length} matching scriptures found";
         }
         else
         {
-            return $"{_book} {_chapter}:{_verse}";
+            _matchingScriptures = _loadedScriptures
+                .Where(line => line.StartsWith($"{_book} {_chapter}:{_verse}"))
+                .ToArray();
+
+            return $"{_book} {_chapter}:{_verse} {_matchingScriptures.Length} matching scriptures found";
         }
     }
 

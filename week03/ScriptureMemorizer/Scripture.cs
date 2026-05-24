@@ -20,8 +20,8 @@ class Scripture
     
     // The Scripture class has two private fields: reference and words, which store the scripture reference and the scripture words, respectively.
 
-    private string _reference;
-    private string[] _words;
+    private readonly string _reference;
+    private readonly string[] _words;
 
     // The Scripture class has a constructor that takes two parameters, reference and text, and initializes the corresponding fields with the provided values.    
 

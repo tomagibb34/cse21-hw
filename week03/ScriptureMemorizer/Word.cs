@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 class Word
 {
-    private string _text;
+    private readonly string _text;
     private bool _isHidden;
 
     public Word(string text)
