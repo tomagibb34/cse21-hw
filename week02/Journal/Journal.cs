@@ -3,7 +3,7 @@ using System.IO;  // This library is used for file handling operations, such as 
 using System.Collections.Generic;  // This library is used for collections, such as lists and dictionaries, which will be used to store the journal entries in memory.
 
 
-public class ReadJournalFile
+public class Journal
 {
      public string _fileName;
 

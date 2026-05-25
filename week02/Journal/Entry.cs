@@ -3,7 +3,7 @@ using System.IO;  // This library is used for file handling operations, such as 
 using System.Collections.Generic;  // This library is used for collections, such as lists and dictionaries, which will be used to store the journal entries in memory.
 
 
-public class WriteJournalFile
+public class Entry
 {
      public string _fileName;
 
@@ -24,5 +24,10 @@ public class WriteJournalFile
                outputFile.WriteLine(entry);  // This will write the current journal entry to the file, followed by a new line character to separate it from the next entry.
            }
         }
+    }
+
+    internal List<string> LoadEntries(string fileName)
+    {
+        throw new NotImplementedException();
     }
 }

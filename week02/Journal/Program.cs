@@ -26,8 +26,8 @@ using System.Collections.Generic;  // This library is used for collections, such
 
 // The following classes will be used to handle the different operations of the program, such as reading from a file, writing to a file, displaying the journal entries, and reading prompts from a file.
 
-using static WriteJournalFile;  // This class will be used to handle the writing of journal entries to a file.
-using static ReadJournalFile;  // This class will be used to handle the reading of journal entries from a file.
+using static Entry;  // This class will be used to handle the writing of journal entries to a file.
+using static Journal;  // This class will be used to handle the reading of journal entries from a file.
 using static DisplayJournal;  // This class will be used to handle the displaying of journal entries to the console.
 using static ReadPromptFile;  // This class will be used to handle the reading of prompts from a file, which will be used to generate random prompts for the user to write about in their journal entries.
 
@@ -84,9 +84,10 @@ class Program
 
                 List<string> journalEntries = new List<string>();  //
 
-                // Load the journal file into memory using the ReadJournalFile class, which will read the journal entries from the specified file and store them in a list in memory, which can then be displayed to the user or used for other operations.
-                ReadJournalFile readJournalFile = new();
+                // Load the journal file into memory using the Journal class, which will read the journal entries from the specified file and store them in a list in memory, which can then be displayed to the user or used for other operations.
 
+                Journal journal = new();
+               
                 // Test to see if 'journal.txt' exists before trying to ready from the file. If the file does not exist, it will create an empty file to avoid errors when trying to read from a non-existent file.
                 
                 if (!File.Exists("journal.txt"))
@@ -94,10 +95,10 @@ class Program
                     File.Create("journal.txt").Close();  // This will create an empty file called "journal.txt" if it does not already exist, and then close the file to release the file handle.
                 }
                 
-                readJournalFile._fileName = "journal.txt";  // This will set the file name for the ReadJournalFile class to "journal.txt".
+                journal._fileName = "journal.txt";  // This will set the file name for the Entry class to "journal.txt".
 
                 // This will call the ReadFromFile method of the ReadJournalFile class, which will read the journal entries from the specified file and store them in a list in memory, which can then be displayed to the user or used for other operations.
-                journalEntries = readJournalFile.ReadFromFile(readJournalFile._fileName);
+                journalEntries = journal.ReadFromFile(journal._fileName);
 
                 // This will initialize the _journalEntry variable with the current date and time, followed by a space for the user to start typing their entry.
                 // This will be the first journal entry that is added to the list of journal entries in memory, which can then be displayed to the user or saved to a file when the user selects the corresponding options.
@@ -108,6 +109,7 @@ class Program
 
                 // This will randomly select a prompt from the list of prompts that were read from the file, and it will display the selected prompt to the user for them to write about in their journal entry.
                 Random random = new Random();
+
                 int _promptIndex = 0;
                 string _selectedPrompt = "";
 
@@ -140,7 +142,8 @@ class Program
                 // This will create a new instance of the WriteJournalFile class, which will be used
                 // to handle the writing of journal entries to a file. The WriteJournalFile class will have a method called WriteEntry, which will handle the writing of a new journal entry to a file. This method will prompt the user for the journal entry, and then write it to a file using file handling operations.
                 
-                WriteJournalFile writeJournalFile = new();
+                Entry writeJournalFile = new();
+
                 writeJournalFile._fileName = "journal.txt";  // This will set the file name for the WriteJournalFile class to "journal.txt".
                 writeJournalFile.WriteToFile(journalEntries);  // This will call the WriteEntry method of the WriteJournalFile class, which will handle the writing of a new journal entry to a file. The WriteEntry method will prompt the user for the journal entry, and then write it to a file using file handling operations.
             }
@@ -153,7 +156,7 @@ class Program
                 DisplayJournal displayJournal = new();
 
                 // Load the journal file into memory using the ReadJournalFile class, which will read the journal entries from the specified file and store them in a list in memory, which can then be displayed to the user or used for other operations.
-                ReadJournalFile readJournalFile = new();
+                Journal readJournalFile = new();
                 readJournalFile._fileName = "journal.txt";  // This will set the file name for the ReadJournalFile class to "journal.txt".
 
                 journalEntries = readJournalFile.ReadFromFile(readJournalFile._fileName);  // This will call the ReadFromFile method of the ReadJournalFile class, which will read the journal entries from the specified file and store them in a list in memory, which can then be displayed to the user or used for other operations.
@@ -170,7 +173,7 @@ class Program
                 // Code to load a journal from a file will go here.
                 // This will create a new instance of the ReadJournalFile class, which will be used to handle the reading of journal entries from a file.
 
-                ReadJournalFile readJournalFile = new();
+                Journal readJournalFile = new();
                 
                 // This will prompt the user to enter the file name for the journal entries they want to load, or to press Enter to use the default file name.
                 
@@ -207,7 +210,7 @@ class Program
                 // Code to save the journal to a file will go here.
                 // This will create a new instance of the WriteJournalFile class, which will be used to handle the writing of journal entries to a file.
 
-                WriteJournalFile writeJournalFile = new();
+                Entry writeJournalFile = new();
                 
                 // Set the file name for the WriteJournalFile class, which will be used to specify the file that the journal entries will be written to.
                 // This can be done by prompting the user for a file name, or by using a default file name.
