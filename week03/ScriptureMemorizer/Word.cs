@@ -28,7 +28,11 @@ class Word
         _isHidden = false;
     }
 
-    public void Hide()
+     public Word()
+     {
+     }
+
+     public void Hide()
     {
         _isHidden = true;
     }

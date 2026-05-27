@@ -43,6 +43,12 @@ class Scripture
 
     public void DisplayScripture()
     {
+        if (string.IsNullOrEmpty(_reference) || string.IsNullOrEmpty(GetText()))
+        {
+            Console.WriteLine("No scripture reference or text to display.");
+            return;
+        }
+
         Console.WriteLine($"{_reference}: {GetText()}");
     }
 

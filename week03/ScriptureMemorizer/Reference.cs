@@ -22,19 +22,12 @@ class Reference
     private int _verseEnd; // Field to store the ending verse number for a scripture reference with multiple verses
     private string _verseInput; // Field to store the user input for the verse number(s)
     private string[] _locVerse; // Field to store the verse number(s) as a string for display purposes
-
     private string[] _lines; // Field to store the lines of the scriptures.txt file, which will be used to find the scripture reference and text based on the user's input. This will allow the program to store the scripture reference and text in separate strings within the Scripture class and the ScriptureMemorizer class, and to handle a scripture with multiple verses by storing the scripture reference and text in separate strings within the ScriptureMemorizer class. This will allow the user to hide a random word in the scripture each time they type "hide" when prompted to hide a word, regardless of how many verses are in the scripture.
-    private static string[] _loadedScriptures;
-
     private string[] _matchingScriptures; // Field to store the scripture references in the _loadedScriptures array that match the user's input for the book, chapter, and verse(s), which will be used to return the scripture reference in the format "Book Chapter:Verse" or "Book Chapter:Verse-EndingVerse" if there are multiple verses. This will allow the program to store the scripture reference and text in separate strings within the Scripture class and the ScriptureMemorizer class, and to handle a scripture with multiple verses by storing the scripture reference and text in separate strings within the ScriptureMemorizer class. This will allow the user to hide a random word in the scripture each time they type "hide" when prompted to hide a word, regardless of how many verses are in the scripture.
-
-    public string[] LoadScriptures()
+    public void LoadScriptures()
     {
         _lines = File.ReadAllLines("lds-scriptures.txt");
-        return _lines;
     }
-
-
     public Reference(string book, int chapter, int verse)
     {
         _book = book;
@@ -67,8 +60,30 @@ class Reference
     {
         // Return the chapter number
         // Query the chapter number from the user input and return it
-        Console.WriteLine("Please enter the chapter number:");
-        _chapter = int.Parse(Console.ReadLine());
+
+        // Validate that the chapter number is a positive integer and does not contain any non-numeric characters, and return an error message if the input is invalid. This will allow the program to validate the user's input for the chapter number and to provide feedback to the user if their input is invalid, which will improve the user experience and help prevent errors in the program.
+
+ 
+        while (true)
+        {
+            Console.WriteLine("Please enter the chapter number:");
+            string chapterInput = Console.ReadLine();
+
+            if (!int.TryParse(chapterInput, out _chapter))
+            {
+                Console.WriteLine("Invalid input: non-numeric characters detected. Please enter a valid chapter number (positive integer).");
+                continue;
+            }
+
+            if (_chapter <= 0)
+            {
+                Console.WriteLine("Invalid input: chapter number must be a positive integer. Please enter a valid chapter number.");
+                continue;
+            }
+
+            break; // Exit the loop if the input is valid
+        }
+        
         return _chapter;
     }
 
@@ -84,7 +99,31 @@ class Reference
         
         if (_verseInput.Contains('-'))
         {
-            _locVerse = _verseInput.Split('-');
+           while (_verseInput.Count(c => c == '-') > 1)
+            {
+                Console.WriteLine("Invalid input: multiple hyphens detected. Please enter a valid verse number or range (e.g., '3' or '3-5'):");
+                _verseInput = Console.ReadLine();
+            }
+
+            while (!int.TryParse(_verseInput.Split('-')[0].Trim(), out _) || !int.TryParse(_verseInput.Split('-')[1].Trim(), out _))
+            {
+                Console.WriteLine("Invalid input: non-numeric verse numbers detected. Please enter a valid verse number or range (e.g., '3' or '3-5'):");
+                _verseInput = Console.ReadLine();
+            }
+
+            while (int.Parse(_verseInput.Split('-')[0].Trim()) <= 0 || int.Parse(_verseInput.Split('-')[1].Trim()) <= 0)
+            {
+                Console.WriteLine("Invalid input: verse numbers must be positive integers. Please enter a valid verse number or range (e.g., '3' or '3-5'):");
+                _verseInput = Console.ReadLine();
+            }
+
+            while (int.Parse(_verseInput.Split('-')[0].Trim()) > int.Parse(_verseInput.Split('-')[1].Trim()))
+            {
+                Console.WriteLine("Invalid input: starting verse number must be less than or equal to ending verse number. Please enter a valid verse number or range (e.g., '3' or '3-5'):");
+                _verseInput = Console.ReadLine();
+            }
+
+           _locVerse = _verseInput.Split('-');
             _verse = int.Parse(_locVerse[0].Trim()); // Store the starting verse number
             _verseEnd = int.Parse(_locVerse[1].Trim()); // Store the ending verse number
             
@@ -92,38 +131,88 @@ class Reference
         }
         else
         {
+            while (!int.TryParse(_verseInput.Trim(), out _))
+            {
+                Console.WriteLine("Invalid input: non-numeric verse number detected. Please enter a valid verse number (e.g., '3'):");
+                _verseInput = Console.ReadLine();
+            }
+            while (int.Parse(_verseInput.Trim()) <= 0)
+            {
+                Console.WriteLine("Invalid input: verse number must be a positive integer. Please enter a valid verse number (e.g., '3'):");
+                _verseInput = Console.ReadLine();
+            }
+            while (_verseInput.Contains('-'))
+            {
+                Console.WriteLine("Invalid input: multiple hyphens detected. Please enter a valid verse number (e.g., '3'):");
+                _verseInput = Console.ReadLine();
+            }
+
             _verse = int.Parse(_verseInput.Trim()); // Store the single verse number
             return (_verse, 0); // Return the single verse number and 0 for the ending verse
         }
     }
 
-    public string GetReference()
+    public bool IsValidBook(string book)
     {
-        _loadedScriptures = LoadScriptures();
+        // Check if the book name is valid by comparing it to the book names in the scriptures.txt file, and return a message indicating whether the book name is valid or not. This will allow the program to validate the user's input for the book name and to provide feedback to the user if their input is invalid, which will improve the user experience and help prevent errors in the program.
+        // Query the book name from the user input and check if it is valid by comparing it to the book names in the scriptures.txt file, and return a message indicating whether the book name is valid or not.
+        // Only load the scriptures from the file if they haven't been loaded already, to improve performance and avoid unnecessary file I/O operations. This will allow the program to validate the user's input for the book name and to provide feedback to the user if their input is invalid, which will improve the user experience and help prevent errors in the program.
 
-        // Return the scripture reference in the format "Book Chapter:Verse" or "Book Chapter:Verse-EndingVerse" if there are multiple verses
-        // Find the scripture references in the _loadedScriptures array that match the user's input for the book, chapter, and verse(s), 
-        // and return the scripture reference in the format "Book Chapter:Verse" or "Book Chapter:Verse-EndingVerse" if there are multiple verses
-
-        if (_verseEnd > 0)
+        if (string.IsNullOrWhiteSpace(book))
         {
-            _matchingScriptures = _loadedScriptures
-                .Where(line => line.Contains($"{_book} {_chapter}:{_verse}") || line.Contains($"{_book} {_chapter}:{_verseEnd}"))
-                .ToArray();
+            Console.WriteLine("Invalid input: book name cannot be empty. Please enter a valid book name:");
+            return false; // The book name is invalid
+        }
 
-            return $"{_book} {_chapter}:{_verse}-{_verseEnd} {_matchingScriptures.Length} matching scriptures found";
+        if (_lines == null || _lines.Length == 0)
+        {
+            LoadScriptures();
+        }
+            
+        if (_lines.Any(line => line.StartsWith(book)))
+        {
+            return true; // The book name is valid
         }
         else
         {
-            _matchingScriptures = _loadedScriptures
-                .Where(line => line.StartsWith($"{_book} {_chapter}:{_verse}"))
-                .ToArray();
+            return false; // The book name is invalid
+        }
+    }
+    
+    public string[] GetReference()
+    {
+        // Only load the scriptures from the file if they haven't been loaded already, to improve performance and avoid unnecessary file I/O operations. This will allow the program to find the scripture reference and text based on the user's input for the book, chapter, and verse(s), and to return the scripture reference in the format "Book Chapter:Verse" or "Book Chapter:Verse-EndingVerse" if there are multiple verses, which will improve the user experience and help prevent errors in the program.
 
-            return $"{_book} {_chapter}:{_verse} {_matchingScriptures.Length} matching scriptures found";
+       if (_lines == null || _lines.Length == 0)
+        {
+            LoadScriptures();
+        }
+       
+        if (_verseEnd > 0)
+        {
+            // Find scriptures that contain any verse in the requested range.
+            // Add in a line separator '\n' before the scripture reference to make it easier to read when there are multiple verses in the scripture reference, and to improve the user experience when displaying the scripture reference and text.
+
+            var matchingList = new List<string>();
+
+            foreach (var verseNumber in Enumerable.Range(_verse, _verseEnd - _verse + 1))
+            {
+                matchingList.AddRange(_lines.Where(line => line.StartsWith($"{_book} {_chapter}:{verseNumber} ")).Select(line => "\n" + line));
+            }
+
+            _matchingScriptures = [.. matchingList];
+
+            return _matchingScriptures;
+        }
+        else
+        {
+            // Find scriptures that contain the single verse.
+            _matchingScriptures = [.. _lines.Where(line => line.StartsWith($"{_book} {_chapter}:{_verse} "))];
+            return _matchingScriptures;
         }
     }
 
-    public string GetDisplayText()
+    public string[] GetDisplayText()
     {
         return GetReference();
     }
