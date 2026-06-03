@@ -25,6 +25,17 @@ using static Order;
 
 class Program
 {
+    protected string name;
+    protected int id;
+    protected string street;
+    protected string city;
+    protected string state;
+    protected string zip;
+    protected string MathAssignment;
+    protected string WritingAssignment;
+
+
+    
     static void Main(string[] args)
     {
         Console.WriteLine("Hello World! This is the OnlineOrdering Project.");
