@@ -78,10 +78,12 @@ partial class Program
           // The loop will also allow the user to input a new book if they input an invalid book, which will allow the program to find the scripture reference in the scriptures.txt file and store the scripture reference and text in separate strings within the Scripture class.
           // The loop will also allow the user to input a new book if they input an invalid book, which will allow the program to find the scripture reference in the scriptures.txt file and store the scripture reference and text in separate strings within the ScriptureMemorizer class. This will allow the user to hide a random word in the scripture each time they type "hide" when prompted to hide a word, regardless of how many verses are in the scripture.
 
-          while (true)
-          {
+            while (true)
+            {
                Console.WriteLine("Do you want to play again, 'yes' or 'quit' to exit:");
+
                string input = Console.ReadLine();
+
                if (input.Equals("quit", StringComparison.CurrentCultureIgnoreCase))
                {
                     return;
@@ -101,7 +103,6 @@ partial class Program
                               Console.WriteLine("Invalid book. Please try again.");
                          }
                     }
-
 
                     int _myChapter = myReference.GetChapter();
 
@@ -166,16 +167,22 @@ partial class Program
                         }
                         else if (hideInput.ToLowerInvariant() == "hide")
                         {
-                            // Call the HideRandomWord method to hide a random word in the scripture. This will allow the user to hide a random word in the scripture each time they type "hide" when prompted to hide a word, regardless of how many verses are in the scripture.
-                            // Call the DisplayScripture method again to display the updated scripture with the hidden word. This will allow the user to see the updated state of the scripture with hidden words after they hide a word.
+                            // The Scripture class does not provide a HideRandomWord method.
+                            // Display a message and show the current scripture instead.
 
-                            //public string _myWord = Word Hide;
+                            Console.WriteLine("Hide functionality is not available for the current Scripture implementation.");
+
+                            
+
+                            myScripture.DisplayScripture();
+
                         }
                         
                         else if (hideInput.ToLower() == "reset")
                         {
                             // Start a new instance of the Scripture class with a new scripture reference and text. This will allow the user to reset the scripture to its original state if they want to start over with hiding words.
                             // Call the DisplayScripture method again to display the original scripture.
+
                             continue;
                         }
                         else if (hideInput.ToLower() == "original")

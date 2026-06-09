@@ -24,10 +24,17 @@ class Reference
     private string[] _locVerse; // Field to store the verse number(s) as a string for display purposes
     private string[] _lines; // Field to store the lines of the scriptures.txt file, which will be used to find the scripture reference and text based on the user's input. This will allow the program to store the scripture reference and text in separate strings within the Scripture class and the ScriptureMemorizer class, and to handle a scripture with multiple verses by storing the scripture reference and text in separate strings within the ScriptureMemorizer class. This will allow the user to hide a random word in the scripture each time they type "hide" when prompted to hide a word, regardless of how many verses are in the scripture.
     private string[] _matchingScriptures; // Field to store the scripture references in the _loadedScriptures array that match the user's input for the book, chapter, and verse(s), which will be used to return the scripture reference in the format "Book Chapter:Verse" or "Book Chapter:Verse-EndingVerse" if there are multiple verses. This will allow the program to store the scripture reference and text in separate strings within the Scripture class and the ScriptureMemorizer class, and to handle a scripture with multiple verses by storing the scripture reference and text in separate strings within the ScriptureMemorizer class. This will allow the user to hide a random word in the scripture each time they type "hide" when prompted to hide a word, regardless of how many verses are in the scripture.
+    private string[] _filePath; // Field to store the file path to the "lds-scriptures.txt" file, which will be used to load the scriptures from the file and to find the scripture reference and text based on the user's input for the book, chapter, and verse(s), and to return the scripture reference in the format "Book Chapter:Verse" or "Book Chapter:Verse-EndingVerse" if there are multiple verses. This will allow the program to store the scripture reference and text in separate strings within the Scripture class and the ScriptureMemorizer class, and to handle a scripture with multiple verses by storing the scripture reference and text in separate strings within the ScriptureMemorizer class. This will allow the user to hide a random word in the scripture each time they type "hide" when prompted to hide a word, regardless of how many verses are in the scripture.
+
+    // Method to load the scriptures from the "lds-scriptures.txt" file and store them in the _lines field, which will be used to find the scripture reference and text based on the user's input for the book, chapter, and verse(s), and to return the scripture reference in the format "Book Chapter:Verse" or "Book Chapter:Verse-EndingVerse" if there are multiple verses. This will allow the program to store the scripture reference and text in separate strings within the Scripture class and the ScriptureMemorizer class, and to handle a scripture with multiple verses by storing the scripture reference and text in separate strings within the ScriptureMemorizer class. This will allow the user to hide a random word in the scripture each time they type "hide" when prompted to hide a word, regardless of how many verses are in the scripture.
+    // Insure the path to the "lds-scriptures.txt" file is correct and that the file is in the correct location relative to the program, to avoid errors when loading the scriptures from the file. This will allow the program to find the scripture reference and text based on the user's input for the book, chapter, and verse(s), and to return the scripture reference in the format "Book Chapter:Verse" or "Book Chapter:Verse-EndingVerse" if there are multiple verses, which will improve the user experience and help prevent errors in the program.
+
     public void LoadScriptures()
     {
-        _lines = File.ReadAllLines("lds-scriptures.txt");
+        _filePath = ["lds-scriptures.txt"];
+        _lines = File.ReadAllLines(_filePath[0]);
     }
+
     public Reference(string book, int chapter, int verse)
     {
         _book = book;
@@ -69,19 +76,17 @@ class Reference
             Console.WriteLine("Please enter the chapter number:");
             string chapterInput = Console.ReadLine();
 
-            if (!int.TryParse(chapterInput, out _chapter))
+            if (!int.TryParse(chapterInput, out _chapter) || chapterInput.Contains('-') || chapterInput.Contains('.') || chapterInput.Contains(',') || chapterInput.Contains(' ') || chapterInput.Any(c => !char.IsDigit(c)))
             {
                 Console.WriteLine("Invalid input: non-numeric characters detected. Please enter a valid chapter number (positive integer).");
                 continue;
             }
-
-            if (_chapter <= 0)
+            else
             {
-                Console.WriteLine("Invalid input: chapter number must be a positive integer. Please enter a valid chapter number.");
-                continue;
+                break; // Exit the loop if the input is valid
+
             }
 
-            break; // Exit the loop if the input is valid
         }
         
         return _chapter;
