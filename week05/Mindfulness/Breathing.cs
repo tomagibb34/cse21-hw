@@ -17,7 +17,7 @@ class Breathing : Activity
 
     public Breathing(string name, string description, int duration, int breathingRate = 20) : base(name, description, duration)
     {
-        _breathingRate = 60000 / breathingRate; // Convert breathing rate from breaths per minute to milliseconds per breath
+        _breathingRate = 6000 / breathingRate; // Convert breathing rate from breaths per minute to milliseconds per breath
 
         // Timer code  for the activity.
 
@@ -34,6 +34,7 @@ class Breathing : Activity
             Thread.Sleep(_breathingRate); // Sleep for the duration of one breath
             Console.Clear(); // Clear the console for the next breath prompt
         }
+        return;
     }
 
     public void Run()
