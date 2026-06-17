@@ -5,9 +5,6 @@
 
 // This is a simple program that will be used to test the functionality of the Video class.
 
-using System;
-using System.Collections.Generic;
-
 public class Video
 {
     private string _title;
