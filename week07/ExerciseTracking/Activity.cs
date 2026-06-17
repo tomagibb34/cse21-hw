@@ -101,7 +101,7 @@ class Activity(string operationName, int DurationInMinutes, double distanceMiles
                     {
                          Console.WriteLine("Invalid input. Please enter a valid duration number in units of minutes as an integer!");
                     }
-                    Console.WriteLine("How far did you run in files, need a double value in the form of 2.5 or such?");
+                    Console.WriteLine("How far did you cycle in miles, need a double value in the form of 2.5 or such?");
                     _tempInput = Console.ReadLine();
                     if (!double.TryParse(_tempInput, out distanceMiles))
                     {
