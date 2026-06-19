@@ -23,8 +23,8 @@ using System;
 class CheckListGoal : Goal
 {
     private int amountCompleted;
-    private int targetCount;
-    private int bonusPoints;
+    private readonly int targetCount;
+    private readonly int bonusPoints;
 
     public CheckListGoal(string name, string description, string points, int targetCount, int bonusPoints) : base(name, description, points)
     {

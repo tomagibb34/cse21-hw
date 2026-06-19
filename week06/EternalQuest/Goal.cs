@@ -34,35 +34,6 @@ class Goal(string name, string description, string points)
     protected string description = description;
     protected string points = points;
 
-     public virtual void DisplayGoalInfo()
-    {
-        // Menu
-        Console.WriteLine("Menu:");
-        Console.WriteLine("1 - Display Full Goal Information");
-        Console.WriteLine("2 - Display Goal Details");
-        Console.WriteLine("3 - Display Goal String Representation");
-
-        Console.WriteLine("Please select an option from the menu:");
-        int choice = int.Parse(Console.ReadLine());
-
-        switch (choice)
-        {
-            case 1:
-                Console.WriteLine($"Goal: {name}");
-                Console.WriteLine($"Description: {description}");
-                Console.WriteLine($"Points: {points}");
-                break;
-            case 2:
-                Console.WriteLine(GetDetailsString());
-                break;
-            case 3:
-                Console.WriteLine(GetStringRepresentation());
-                break;
-            default:
-                Console.WriteLine("Invalid option.");
-                break;
-        }
-    }
     public virtual void RecordEvent()
     {
         // This method can be overridden by derived classes to record an event related to the goal.
